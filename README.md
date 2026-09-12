@@ -121,36 +121,39 @@ fetch through it.
 ## Reflection
 
 **What AI coding tool (if any) you used for this task, and roughly how — what you prompted for vs. what you wrote/fixed yourself**
-Claude (Anthropic), throughout both parts. I prompted it
-to scaffold the initial Python script and the Next.js/Flask architecture,
-then iterated with it live as I hit real errors like Tailwind/Turbopack
-version conflicts, misconfigured Render build settings, and YouTube's bot
-detection on cloud IPs. Claude wrote the initial code and diagnosed each
-error, but I ran every command myself, read the actual terminal/log output,
-and made the calls on which fix to try next (e.g., choosing cookies over
-further client-spoofing once that stopped working).
+
+- Claude (Anthropic), throughout both parts. I prompted it
+  to scaffold the initial Python script and the Next.js/Flask architecture,
+  then iterated with it live as I hit real errors like Tailwind/Turbopack
+  version conflicts, misconfigured Render build settings, and YouTube's bot
+  detection on cloud IPs. Claude wrote the initial code and diagnosed each
+  error, but I ran every command myself, read the actual terminal/log output,
+  and made the calls on which fix to try next (e.g., choosing cookies over
+  further client-spoofing once that stopped working).
 
 **What you'd do differently if this were a real production feature (error handling, caching, rate limits, etc.)**
-Add caching (e.g., Redis) so repeated requests for the same video don't hit yt-dlp every time,
-rate-limiting on the API route to prevent abuse of the scraping backend,
-and structured logging/alerting instead of manually reading Render's
-console. I'd also move the yt-dlp call into a background job queue rather
-than a synchronous request, since yt-dlp's latency is unpredictable, and
-add retry logic with exponential backoff for transient YouTube failures.
+
+- Add caching (e.g., Redis) so repeated requests for the same video don't hit yt-dlp every time,
+  rate-limiting on the API route to prevent abuse of the scraping backend,
+  and structured logging/alerting instead of manually reading Render's
+  console. I'd also move the yt-dlp call into a background job queue rather
+  than a synchronous request, since yt-dlp's latency is unpredictable, and
+  add retry logic with exponential backoff for transient YouTube failures.
 
 **Anything that broke or didn't work as expected, and how you'd debug it further with more time**
-The biggest issue was YouTube's bot detection blocking requests from Render's
-shared IPs with a "Sign in to confirm you're not a bot" error — this didn't
-show up locally, only after deploying. As of this submission, it's still
-unresolved on the live Render deployment: client-spoofing (Android/iOS player clients)
-didn't clear it, and I hadn't yet confirmed whether authenticated cookies would
-work before running out of time. Locally, the app works correctly end to
-end with real data, so the core logic is proven — the remaining problem is
-specifically Render's shared IP reputation with YouTube, not the
-application code. With more time, I'd verify the cookies approach
-end-to-end, and if that also degrades over time (cookies can expire or get
-flagged), I'd look at a dedicated residential proxy or a managed YouTube
-extraction API so the service doesn't depend on IP reputation or cookie
-freshness at all. I'd also add monitoring/alerting so a regression like
-this is caught automatically rather than discovered by manually testing
-the live site.
+
+- The biggest issue was YouTube's bot detection blocking requests from Render's
+  shared IPs with a "Sign in to confirm you're not a bot" error — this didn't
+  show up locally, only after deploying. As of this submission, it's still
+  unresolved on the live Render deployment: client-spoofing (Android/iOS player clients)
+  didn't clear it, and I hadn't yet confirmed whether authenticated cookies would
+  work before running out of time. Locally, the app works correctly end to
+  end with real data, so the core logic is proven — the remaining problem is
+  specifically Render's shared IP reputation with YouTube, not the
+  application code. With more time, I'd verify the cookies approach
+  end-to-end, and if that also degrades over time (cookies can expire or get
+  flagged), I'd look at a dedicated residential proxy or a managed YouTube
+  extraction API so the service doesn't depend on IP reputation or cookie
+  freshness at all. I'd also add monitoring/alerting so a regression like
+  this is caught automatically rather than discovered by manually testing
+  the live site.
