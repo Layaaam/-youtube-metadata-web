@@ -43,6 +43,7 @@ def get_video_metadata(url: str) -> dict:
         "no_warnings": True,
         "skip_download": True,
         "noplaylist": True,
+        "extractor_args": {"youtube": {"player_client": ["android", "web"]}},
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
