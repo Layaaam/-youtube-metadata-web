@@ -123,11 +123,13 @@ fetch through it.
 **What AI coding tool (if any) you used for this task, and roughly how — what you prompted for vs. what you wrote/fixed yourself**
 
 - Claude (Anthropic), throughout both parts. I prompted it
-  to scaffold the initial Python script and the Next.js/Flask architecture,
+  to generate the initial idea on how to solve the task like using
+  Python script and the Next.js/Flask architecture,
   then iterated with it live as I hit real errors like Tailwind/Turbopack
   version conflicts, misconfigured Render build settings, and YouTube's bot
-  detection on cloud IPs. Claude wrote the initial code and diagnosed each
-  error, but I ran every command myself, read the actual terminal/log output,
+  detection on cloud IPs. I wrote the initial code and diagnosed each
+  error, but when problems occur beyond my research, I diagnosed it with Claude Code
+  and ran every command myself, read the actual terminal/log output,
   and made the calls on which fix to try next (e.g., choosing cookies over
   further client-spoofing once that stopped working).
 
