@@ -1,18 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// ---------------------------------------------------------------------------
-// MICROSERVICE IMPLEMENTATION
-// ---------------------------------------------------------------------------
-// This route calls a separate Python microservice (see /service/app.py),
-// which wraps yt-dlp and exposes it over HTTP. That keeps the Python
-// runtime and its dependencies (yt-dlp) fully decoupled from the Next.js
-// server — useful for deploying on platforms like Vercel that don't run
-// Python alongside Node, and it lets the two services scale independently.
-//
-// The microservice URL is read from an environment variable so it can point
-// to localhost in development and to a deployed service URL in production.
-// ---------------------------------------------------------------------------
-
 const PYTHON_SERVICE_URL =
   process.env.PYTHON_SERVICE_URL || "http://localhost:5001";
 
@@ -45,7 +32,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url }),
-      // Avoid Next.js caching a POST that hits a live external service.
+
       cache: "no-store",
     });
 
@@ -60,7 +47,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(data);
   } catch (err) {
-    // Most common cause: the Python microservice isn't running.
     return NextResponse.json(
       {
         error:

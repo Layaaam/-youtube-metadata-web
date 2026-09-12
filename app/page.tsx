@@ -82,18 +82,16 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-canvas">
       <div className="mx-auto max-w-2xl px-6 py-24">
-        {/* Hero */}
         <h1 className="font-serif text-4xl sm:text-5xl leading-tight text-ink">
           Know the video
           <br />
           before you open it.
         </h1>
         <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted">
-          Paste a YouTube link and get the essentials — duration, views,
-          upload date — pulled straight from the source.
+          Paste a YouTube link and get the essentials from duration, views,
+          to upload date, pulled straight from the source.
         </p>
 
-        {/* Input row */}
         <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:rounded-full sm:border sm:border-line sm:bg-panel/60 sm:p-1.5">
           <input
             type="text"
@@ -118,13 +116,11 @@ export default function Home() {
           </p>
         )}
 
-        {/* Result */}
         {data && (
           <div className="mt-14 animate-rise-in">
             <div className="flex flex-col sm:flex-row gap-6">
               {data.thumbnail && (
                 <div className="w-full sm:w-56 shrink-0 overflow-hidden rounded-2xl bg-panel">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={data.thumbnail}
                     alt={data.title}
@@ -140,7 +136,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Stat row */}
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-line pt-8">
               <div>
                 <div className="text-2xl font-serif text-ink">
